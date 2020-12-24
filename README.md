@@ -3,20 +3,20 @@
 The goal of this project is to make money playing fantasy basketball on draftkings in a completely automated manner. Running one script, `scraping_and_entering.py` collects fantasy point projections for players playing in today's games, creates the optimal lineup based on those projections, uploads this lineup to draftkings, and enters a contest with the lineup. Currently the player projections are scraped from https://www.numberfire.com. 
 
 The following inputs are required and should be specified in a file, `scraping_and_entering_inputs.env`:
-nf_username: username for a yahoo account that is signed up for numberfire (https://www.numberfire.com/)
-nf_password: password for a yahoo account that is signed up for numberfire (https://www.numberfire.com/)
-dk_username: username for draftkings account
-dk_password: password for draftkings account
-downloads_path: full file path to location chrome downloads to
-contest_title: name of title of contest program will enter
+1. nf_username: username for a yahoo account that is signed up for numberfire (https://www.numberfire.com/)
+2. nf_password: password for a yahoo account that is signed up for numberfire (https://www.numberfire.com/)
+3. dk_username: username for draftkings account
+4. dk_password: password for draftkings account
+5. downloads_path: full file path to location chrome downloads to
+6. contest_title: name of title of contest program will enter
 
 Example of a `scraping_and_entering_inputs.env` file:
-        nf_username="email@yahoo.com"
-        nf_password='cool_password'
-        dk_username='email@gmail.com'
-        dk_password='another_cool_password'
-        downloads_path='/Users/joesmith/Downloads'
-        contest_title="NBA Single Entry $5 Double Up"
+    nf_username="email@yahoo.com"
+    nf_password='cool_password'
+    dk_username='email@gmail.com'
+    dk_password='another_cool_password'
+    downloads_path='/Users/joesmith/Downloads'
+    contest_title="NBA Single Entry $5 Double Up"
 
 ## To Do 
 * look into why there was a bug in the upload function on 12/22
