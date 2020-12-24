@@ -10,13 +10,16 @@ The following inputs are required and should be specified in a file, `scraping_a
 5. downloads_path: full file path to location chrome downloads to
 6. contest_title: name of title of contest program will enter
 
-Example of a `scraping_and_entering_inputs.env` file:
-    nf_username="email@yahoo.com"
-    nf_password='cool_password'
-    dk_username='email@gmail.com'
-    dk_password='another_cool_password'
-    downloads_path='/Users/joesmith/Downloads'
-    contest_title="NBA Single Entry $5 Double Up"
+Example of a `scraping_and_entering_inputs.env` file: <br>
+
+```
+nf_username="email@yahoo.com"
+nf_password='cool_password'
+dk_username='email@gmail.com'
+dk_password='another_cool_password'
+downloads_path='/Users/joesmith/Downloads'
+contest_title="NBA Single Entry $5 Double Up"
+```
 
 ## To Do 
 * look into why there was a bug in the upload function on 12/22
