@@ -44,7 +44,7 @@ def DK_ID_template(username,password,downloads_path):
     selector = '.lineup-upload-left .inner .start-time.list-unstyled'
     #downloaded file will be named "DKSalaries.csv". remove this from downloads folder and wait until file is finished
     try:
-        os.remove(os.path.join(downloads_path,"/DKSalaries.csv")
+        os.remove(os.path.join(downloads_path,"DKSalaries.csv"))
     except:
         pass
     #download template
@@ -52,7 +52,7 @@ def DK_ID_template(username,password,downloads_path):
     WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
     element = driver.find_element_by_css_selector(selector)
     driver.execute_script("arguments[0].click();", element)
-    while not os.path.exists(os.path.join(downloads_path,"/DKSalaries.csv"):
+    while not os.path.exists(os.path.join(downloads_path,"DKSalaries.csv")):
         time.sleep(1)
 
     #helper function to get latest downloaded file

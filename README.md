@@ -22,6 +22,8 @@ contest_title="NBA Single Entry $5 Double Up"
 ```
 
 ## To Do 
+* fix absolute path in upload and enter
+* change path to chromedriver
 * look into why there was a bug in the upload function on 12/22
 * enter into multiple contests
 * select a different lineup not just most recent lineup

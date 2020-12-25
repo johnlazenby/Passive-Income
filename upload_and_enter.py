@@ -5,14 +5,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By 
 from selenium.webdriver.common.action_chains import ActionChains
 import time
+import os
 
 
-def upload_and_enter(driver,upload_path,contest_title):
+def upload_and_enter(driver,contest_title):
 
     #upload csv file
+    
     selector = '[name="fileUpload"]'
     WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
-    file_name = "{}lineup_{}.csv".format(upload_path,date.today())
+    file_name = os.path.join("/Users/johnlazenby/projects/DraftKings/export/for_upload","lineup_{}.csv".format(date.today()))
     driver.find_element_by_css_selector(selector).send_keys("{}".format(file_name))
     time.sleep(5)
 
@@ -49,5 +51,5 @@ def upload_and_enter(driver,upload_path,contest_title):
     driver.execute_script("arguments[0].scrollIntoView();", element)
     driver.execute_script("arguments[0].click();", element)
 
-    time.sleep(30)
+    time.sleep(5)
     driver.quit()
