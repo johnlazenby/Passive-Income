@@ -7,6 +7,7 @@ from os import environ, path
 from dotenv import load_dotenv
 
 if __name__ == "__main__":
+        
     # load inputs
     load_dotenv(dotenv_path='scraping_and_entering_inputs.env')
 
@@ -26,4 +27,7 @@ if __name__ == "__main__":
 
     #upload template and enter contest with title of contest_title
     contest_title = environ.get("contest_title")
-    upload_and_enter(driver = driver,contest_title = contest_title)
+    contest_titles = [i for i in environ.get("contest_titles").split("|")] 
+    upload_and_enter(driver = driver,contest_titles = contest_titles)
+
+    
