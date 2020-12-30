@@ -1,6 +1,6 @@
 # DraftKings
 
-The goal of this project is to make money playing fantasy basketball on draftkings in a completely automated manner. Running one script, `scraping_and_entering.py` collects fantasy point projections for players playing in today's games, creates the optimal lineup based on those projections, uploads this lineup to draftkings, and enters a contest with the lineup. Currently the player projections are scraped from https://www.numberfire.com. 
+The goal of this project is to make money playing fantasy basketball on draftkings in a completely automated manner. Running one script, `scraping_and_entering.py` collects fantasy point projections for players playing in today's games, creates the optimal lineup based on those projections, uploads this lineup to draftkings, and enters a contest with the lineup. Currently the player projections are scraped from [here](https://www.numberfire.com). 
 
 The following inputs are required and should be specified in a file, `scraping_and_entering_inputs.env`:
 1. nf_username: username for a yahoo account that is signed up for numberfire (https://www.numberfire.com/)
@@ -22,7 +22,7 @@ contest_titles="'NBA Single Entry $5 Double Up'|'NBA Single Entry $10 Double Up'
 ```
 
 ## To Do 
-* enter into multiple contests better
+* enter into multiple contests with more sophistication
 * find upload bug
 * select a different lineup not just most recent lineup
 * sort lineups so those with many entries are on the top
@@ -32,4 +32,4 @@ contest_titles="'NBA Single Entry $5 Double Up'|'NBA Single Entry $10 Double Up'
     - https://www.lineups.com/nba/nba-fantasy-basketball-projections#howprojectionschangethroughouttheday (has a download option)
     - https://www.rotowire.com/daily/nba/optimizer.php
     - https://www.numberfire.com/nba/daily-fantasy/daily-basketball-projections (already done)
-* set up computer to run this half hour before datest that have at least a certain number of games
+* set up computer to run this half hour before first game of day
