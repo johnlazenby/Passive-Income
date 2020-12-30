@@ -96,9 +96,6 @@ def merge_and_optimize(df, points_df):
     final_pos_list = [0 for i in range(8)]
     for pos in ["pg","sg","sf","pf","c"]:
         position_list = [df['ID'].to_list()[i] for i in n if x[i].x >= 0.99 and df[pos].to_list()[i] == 1]
-        print('keep this until we find bug')
-        print(pos)
-        print(len(position_list))
         if pos == "pg":
             final_pos_list[0] = position_list[0]
         elif pos == "sg":
@@ -109,7 +106,7 @@ def merge_and_optimize(df, points_df):
             final_pos_list[3] = position_list[0]
         elif pos == "c":
             final_pos_list[4] = position_list[0]
-        if len(position_list) == 2:
+        if len(position_list) >= 2:
             if pos in ["pg","sg"]:
                 final_pos_list[5] = position_list[1]
             elif pos in ["sf","pf"]:

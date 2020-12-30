@@ -23,7 +23,6 @@ contest_titles="'NBA Single Entry $5 Double Up'|'NBA Single Entry $10 Double Up'
 
 ## To Do 
 * enter into multiple contests better
-* find upload bug
 * select a different lineup not just most recent lineup
 * sort lineups so those with many entries are on the top
 * scrape results db (https://rotogrinders.com/resultsdb/site/draftkings/date/2020-12-23/sport/nba/slate/5fe4b217bb4f154ed960c2cc) and research cash lines for various contest types
