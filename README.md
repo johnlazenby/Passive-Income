@@ -8,7 +8,7 @@ The following inputs are required and should be specified in a file, `scraping_a
 3. dk_username: username for draftkings account
 4. dk_password: password for draftkings account
 5. downloads_path: full file path to location chrome downloads to
-6. contest_title: name of title of contest program will enter
+6. contest_titles: name of titles of contest program will enter seperated by "|"
 
 Example of a `scraping_and_entering_inputs.env` file: <br>
 
@@ -18,7 +18,7 @@ nf_password='cool_password'
 dk_username='email@gmail.com'
 dk_password='another_cool_password'
 downloads_path='/Users/joesmith/Downloads'
-contest_title="NBA Single Entry $5 Double Up"
+contest_titles="'NBA Single Entry $5 Double Up'|'NBA Single Entry $10 Double Up'"
 ```
 
 ## To Do 
