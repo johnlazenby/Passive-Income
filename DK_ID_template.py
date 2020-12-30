@@ -11,7 +11,9 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 def DK_ID_template(username,password,downloads_path):
     #open browser
-    driver = webdriver.Chrome('/Users/johnlazenby/projects/DraftKings/chromedriver')
+    current_directory = os.path.dirname(os.path.realpath(__file__))
+    driver_path = os.path.join(current_directory,'chromedriver')
+    driver = webdriver.Chrome(driver_path)
     driver.get('https://www.draftkings.com/lobby')
     #sign in
     driver.find_element_by_css_selector('[placeholder="Username or Email"]').send_keys(username)

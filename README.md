@@ -25,6 +25,7 @@ contest_titles="'NBA Single Entry $5 Double Up'|'NBA Single Entry $10 Double Up'
 * enter into multiple contests with more sophistication
 * select a different lineup not just most recent lineup
 * sort lineups so those with many entries are on the top
+* create selenium wrapper to remove redundent code
 * scrape results db (https://rotogrinders.com/resultsdb/site/draftkings/date/2020-12-23/sport/nba/slate/5fe4b217bb4f154ed960c2cc) and research cash lines for various contest types
 * deal with players with questionable status
 * look for and scrape more predictions

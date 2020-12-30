@@ -23,7 +23,8 @@ if __name__ == "__main__":
     driver, df = DK_ID_template(username = dk_username, password = dk_password, downloads_path = downloads_path)
 
     #merge prediction and template, find optimal lineup, download file for upload and file for record.
-    merge_and_optimize(df = df,points_df = predictions)
+    excluded_players = [i for i in environ.get("excluded_players").split("|")] 
+    merge_and_optimize(df = df,points_df = predictions,excluded_players=excluded_players)
 
     #upload template and enter contest with title of contest_title
     contest_title = environ.get("contest_title")

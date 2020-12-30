@@ -7,6 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By 
 from selenium.webdriver.common.action_chains import ActionChains
+import os
 
 #takes a valid yahoo numberfire login and returns player-name-predicted points
 #saves a copy of predictions as a .csv file in specified location
@@ -20,7 +21,9 @@ def scrape_numberfire(username,password):
         except:
             pass
         #open browser to projections url
-        driver = webdriver.Chrome('/Users/johnlazenby/projects/DraftKings/chromedriver')
+        current_directory = os.path.dirname(os.path.realpath(__file__))
+        driver_path = os.path.join(current_directory,'chromedriver')
+        driver = webdriver.Chrome(driver_path)
         driver.get('https://www.numberfire.com/nba/daily-fantasy/daily-basketball-projections')
         #sign in
         selector = "//*[contains(text(), 'Sign Up With Yahoo')]"

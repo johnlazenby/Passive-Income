@@ -6,7 +6,7 @@ from mip import Model, xsum, maximize, BINARY, CBC
 #takes template and predicted points, determines optimal lineup andcreates template .csv file that can be uploaded to DK
 #saves copy of selected roster to specified location.
 
-def merge_and_optimize(df, points_df):
+def merge_and_optimize(df, points_df,excluded_players):
     #merge template and predicted points
     df = df.merge(points_df, left_on=['Name','TeamAbbrev'], right_on=['name','team'],how='left')
     #we will miss some bad players. check max salary of players that did not merge
@@ -42,6 +42,12 @@ def merge_and_optimize(df, points_df):
     #create player dummy used to ensure no player is used twice despite duplicates
     df = pd.concat([df,pd.get_dummies(df['name'])],axis=1) 
     player_var_list = pd.get_dummies(df['name']).columns
+
+    #remove questionable and ruled out players
+    print(excluded_players)
+    print(df.shape)
+    df = df[~df['name'].isin(excluded_players)]
+    print(df.shape)
 
     #select optimal lineup
     #num rows
@@ -96,6 +102,8 @@ def merge_and_optimize(df, points_df):
     final_pos_list = [0 for i in range(8)]
     for pos in ["pg","sg","sf","pf","c"]:
         position_list = [df['ID'].to_list()[i] for i in n if x[i].x >= 0.99 and df[pos].to_list()[i] == 1]
+        print(pos)
+        print(len(position_list))
         if pos == "pg":
             final_pos_list[0] = position_list[0]
         elif pos == "sg":
@@ -107,11 +115,13 @@ def merge_and_optimize(df, points_df):
         elif pos == "c":
             final_pos_list[4] = position_list[0]
         if len(position_list) >= 2:
-            if pos in ["pg","sg"]:
+            if (pos in ["pg","sg"]) and final_pos_list[5] == 0:
                 final_pos_list[5] = position_list[1]
-            elif pos in ["sf","pf"]:
+            elif pos in ["sf","pf"] and final_pos_list[6] == 0:
                 final_pos_list[6] = position_list[1]
             elif pos == "c":
+                final_pos_list[7] = position_list[1]
+            else:
                 final_pos_list[7] = position_list[1]
         if len(position_list) == 3:
             final_pos_list[7] = position_list[2]
