@@ -16,6 +16,8 @@ def DK_ID_template(username,password,downloads_path):
     driver = webdriver.Chrome(driver_path)
     driver.get('https://www.draftkings.com/lobby')
     #sign in
+    selector = '[placeholder="Username or Email"]'
+    WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
     driver.find_element_by_css_selector('[placeholder="Username or Email"]').send_keys(username)
     driver.find_element_by_css_selector('[placeholder="Password"]').send_keys(password)
     driver.find_element_by_css_selector('[data-test-id="login-input"] span').click()

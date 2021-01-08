@@ -7,6 +7,10 @@ from mip import Model, xsum, maximize, BINARY, CBC
 #saves copy of selected roster to specified location.
 
 def merge_and_optimize(df, points_df,excluded_players):
+    print(df.shape)
+    print(df.head)
+    print(points_df.shape)
+    print(points_df.head)
     #merge template and predicted points
     df = df.merge(points_df, left_on=['Name','TeamAbbrev'], right_on=['name','team'],how='left')
     #we will miss some bad players. check max salary of players that did not merge

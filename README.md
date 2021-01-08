@@ -22,6 +22,7 @@ contest_titles="'NBA Single Entry $5 Double Up'|'NBA Single Entry $10 Double Up'
 ```
 
 ## To Do 
+* specify correct slate template to download
 * enter into multiple contests with more sophistication
 * select a different lineup not just most recent lineup
 * sort lineups so those with many entries are on the top
