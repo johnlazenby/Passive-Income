@@ -70,6 +70,8 @@ def scrape_numberfire(username,password):
         name = player.find('a', class_='full').get_text().strip()
         points = player.find('td', class_='fp active').get_text().strip()
         team = player.select('span.team-player__team.active')[0].get_text().strip()
+        injury = player.select('.team-player__injury')
+        if len(injury) > 0: continue
         row_of_data = {"name":name,"points":points,"team":team}
         list_of_dicts.append(row_of_data)
 
