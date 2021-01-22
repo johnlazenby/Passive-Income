@@ -8,127 +8,62 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By 
 from selenium.webdriver.common.action_chains import ActionChains
+from datetime import timedelta, date
 
 #takes a valid yahoo numberfire login and returns player-name-predicted points
 #saves a copy of predictions as a .csv file in specified location
 
-date = "2020-12-22"
-url = 'https://rotogrinders.com/resultsdb/site/draftkings/date/{}'.format(date)
-driver = webdriver.Chrome('./chromedriver')
-driver.get(url)
-selector = "//*[contains(text(), 'Contests')]"
-WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, selector)))
-element = driver.find_element_by_xpath(selector)
-driver.execute_script("arguments[0].click();", element)
-text = driver.page_source
-soup = BeautifulSoup(text, "html.parser").find_all(class_="ant-table-tbody")[2]
-for contest in soup.find_all('tr'):
-    print("****************************")
-    print(contest.prettify())
-    print('here')
-    print(contest.find_all('td')[0].select_one('a').get_text().strip())
-    #contest_name = contest.find_all('td')[0].select('span a').get_text().strip()
-    #print(contest_name)
-    i = 0
-    for column in contest.find_all('td'):
-        i = i + 1
-        print(i)
-        print(column.prettify())
+def pad(num):
+    if num < 10:
+        return '0{}'.format(num)
+    else:
+        return '{}'.format(num)
 
-exit()
+def daterange(start_date, end_date):
+    for n in range(int((end_date - start_date).days)):
+        yield start_date + timedelta(n)
 
-#parse html with beautiful soup
-soup = BeautifulSoup(text, "html.parser").find_all(class_="ant-table-tbody")[2]
-#get table with data
-#soup = soup.find(class_="stat-table__body")
-print(soup.prettify())
-exit()
-#get name, points, salary, and team
-list_of_dicts = []
-for player in soup.find_all('tr'):
-    name = player.find('a', class_='full').get_text().strip()
-    points = player.find('td', class_='fp active').get_text().strip()
-    team = player.select('span.team-player__team.active')[0].get_text().strip()
-    row_of_data = {"name":name,"points":points,"team":team}
-    list_of_dicts.append(row_of_data)
+start_date = date(2021, 1, 1)
+end_date = date(2021, 1, 21)
 
-df = pd.DataFrame(list_of_dicts)
+for single_date in daterange(start_date, end_date):
+    year = pad(single_date.year)
+    month = pad(single_date.month)
+    day = pad(single_date.day)
 
 
-
-'''
-
-def scrape_numberfire(username,password):
-    #url sometimes defaults to this page after sign in. In these cases just try again.
-    url = "https://www.numberfire.com/"
-    while url == "https://www.numberfire.com/":
-        try:
-            driver.quit()
-        except:
-            pass
-        #open browser to projections url
-        driver = webdriver.Chrome('/Users/johnlazenby/projects/DraftKings/chromedriver')
-        driver.get('https://www.numberfire.com/nba/daily-fantasy/daily-basketball-projections')
-        #sign in
-        selector = "//*[contains(text(), 'Sign Up With Yahoo')]"
-        WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, selector)))
-        element = driver.find_element_by_xpath(selector)
-        driver.execute_script("arguments[0].click();", element)
-        #type username
-        selector = '.phone-no'
-        WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
-        driver.find_element_by_css_selector(selector).send_keys(username)
-        #click enter
-        driver.find_element_by_css_selector('[id=login-signin]').click()
-        #type password
-        selector = '[id=login-passwd]'
-        WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
-        driver.find_element_by_css_selector(selector).send_keys(password)
-        #click enter
-        driver.find_element_by_css_selector('[id=login-signin]').click()
-        url = driver.current_url
-
-    #switch to draft kings numbers
-    #click drop down
-    selector = '.dfs-main__options__sections__indiv.platform .custom-drop i'
-    WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
-    element = driver.find_element_by_css_selector(selector)
+    url = 'https://rotogrinders.com/resultsdb/site/draftkings/date/{}-{}-{}'.format(year,month,day)
+    driver = webdriver.Chrome('./chromedriver')
+    driver.get(url)
+    selector = "//*[contains(text(), 'Contests')]"
+    WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, selector)))
+    element = driver.find_element_by_xpath(selector)
     driver.execute_script("arguments[0].click();", element)
-    #select DK
-    selector = '.dfs-main__options__sections__indiv.platform [data-value="4"]'
-    WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
-    element = driver.find_element_by_css_selector(selector)
-    driver.execute_script("arguments[0].click();", element)
-    #wait to load then get html and close browser
-    time.sleep(10)
+    #wait for cashlines to load
+    time.sleep(5)
     text = driver.page_source
-    driver.quit()
-
-    #parse html with beautiful soup
-    soup = BeautifulSoup(text, "html.parser")
-    #get table with data
-    soup = soup.find(class_="stat-table__body")
-    #get name, points, salary, and team
+    soup = BeautifulSoup(text, "html.parser").find_all(class_="ant-table-tbody")[2]
     list_of_dicts = []
-    for player in soup.find_all('tr'):
-        name = player.find('a', class_='full').get_text().strip()
-        points = player.find('td', class_='fp active').get_text().strip()
-        team = player.select('span.team-player__team.active')[0].get_text().strip()
-        row_of_data = {"name":name,"points":points,"team":team}
+    for contest in soup.find_all('tr'):
+        row = contest.find_all('td')
+        contest_name = row[0].select_one('a').get_text().strip()
+        contest_link = row[1].select_one('a')['href']
+        prize_pool = row[2].get_text().replace(',', '').replace('$','')
+        buy_in = row[3].get_text().replace(',', '').replace('$','')
+        top_prize = row[4].get_text().replace(',', '').replace('$','')
+        max_entries = row[5].get_text()
+        entries = row[6].get_text()
+        cash_line = row[7].get_text()
+        winning_score = row[9].get_text()
+        row_of_data = {"contest_name":contest_name,"contest_link":contest_link,"prize_pool":prize_pool,
+        "buy_in":buy_in,"top_prize":top_prize,"max_entries":max_entries,"entries":entries,"cash_line":cash_line,
+        "winning_score":winning_score}
         list_of_dicts.append(row_of_data)
 
+    driver.quit()
+
     df = pd.DataFrame(list_of_dicts)
-    #clean name for merge with template. name to upper case and remove JR. and SR.    
-    df['name'] = df['name'].str.upper()
-    df['name'] = df['name'].str.replace('JR.','')
-    df['name'] = df['name'].str.replace('SR.','')
-    df['name'] = df['name'].str.strip()
-
     #save copy
-    file_name = 'export/predictions/numberfire_{}.csv'.format(date.today())
+
+    file_name = 'research/export/contest_results/contest_results_{}_{}_{}.csv'.format(year,month,day)
     df.to_csv(file_name,index=False)
-
-    df['points'] = pd.to_numeric(df['points'])
-
-    return df
-'''

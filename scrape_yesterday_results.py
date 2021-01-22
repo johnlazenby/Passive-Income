@@ -8,7 +8,7 @@ from datetime import timedelta
 def scrape_yesterday_results():
     #yesterday
     today = date.today()
-    yesterday = today - timedelta(days = 1) 
+    yesterday = today - timedelta(days = 2) 
     day = yesterday.day
     month = yesterday.month
     year = yesterday.year
