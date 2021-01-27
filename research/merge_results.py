@@ -13,9 +13,10 @@ def daterange(start_date, end_date):
         yield start_date + timedelta(n)
 
 
-skip_list  = [date(2020, 12, 24), date(2021, 1, 2), date(2021, 1, 12), date(2021, 1, 13), date(2021,1,20)]
-start_date = date(2021, 1, 1)
-end_date = date(2021, 1, 21)
+skip_list  = [date(2020, 12, 24), date(2020, 12, 25), date(2021, 1, 2), date(2021, 1, 12), date(2021, 1, 13), date(2021,1,20),
+date(2021,1,21), date(2021,1,24), date(2021,1,26)]
+start_date = date(2020, 12, 23)
+end_date = date(2021, 1, 27)
 for single_date in daterange(start_date, end_date):
     year = pad(single_date.year)
     month = pad(single_date.month)
@@ -44,12 +45,20 @@ for single_date in daterange(start_date, end_date):
     df2 = pd.read_csv('export/lineups/lineup_{}-{}-{}.csv'.format(year,month,day))
     df2['name'] = df2['name'].str.strip()
 
-    #results db
-    df3 = pd.read_csv('research/export/contest_results/contest_results_{}_{}_{}.csv'.format(year,month,day))
-    cash_line = df3.loc[df3['contest_name'] == 'NBA Single Entry $5 Double Up','cash_line']
-
     #merge
     merged = df.merge(df2,left_on='Name',right_on = 'name',how="right")
+    points = merged['DK Pts'].sum()
+
+    #results db
+    df3 = pd.read_csv('research/export/contest_results/contest_results_{}_{}_{}.csv'.format(year,month,day))
+    df3['contest_name'] = df3['contest_name'].str.upper()
+    #to_filter = df3['contest_name'].str.contains('DOUBLE UP')
+    to_filter = (df3['contest_name'] == 'NBA SINGLE ENTRY $5 DOUBLE UP') | (df3['contest_name'] == 'NBA GIANT SINGLE ENTRY $5 DOUBLE UP')
+    cash_line = df3.loc[to_filter,'cash_line'].mean()
+    
+    #lineup
     print(merged[['name','DK Pts','points']])
-    print(merged['DK Pts'].sum())
-    print(cash_line)
+    
+    #result
+    win = points > cash_line
+    print('cash:{}, points:{},{}'.format(cash_line,points,win))

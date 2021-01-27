@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
 import pandas as pd
 import time
+import os
 from datetime import date
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -10,30 +10,25 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from datetime import timedelta, date
 
-#takes a valid yahoo numberfire login and returns player-name-predicted points
-#saves a copy of predictions as a .csv file in specified location
+def scrape_yesterday_contests():
+    
+    def pad(num):
+        if num < 10:
+            return '0{}'.format(num)
+        else:
+            return '{}'.format(num)
 
-def pad(num):
-    if num < 10:
-        return '0{}'.format(num)
-    else:
-        return '{}'.format(num)
+    #yesterday
+    today = date.today()
+    yesterday = today - timedelta(days = 1) 
+    day = pad(yesterday.day)
+    month = pad(yesterday.month)
+    year = pad(yesterday.year)
 
-def daterange(start_date, end_date):
-    for n in range(int((end_date - start_date).days)):
-        yield start_date + timedelta(n)
-
-start_date = date(2021, 1, 10)
-end_date = date(2021, 1, 11)
-
-for single_date in daterange(start_date, end_date):
-    year = pad(single_date.year)
-    month = pad(single_date.month)
-    day = pad(single_date.day)
-
-
-    url = 'https://rotogrinders.com/resultsdb/site/draftkings/date/{}-{}-{}/sport/nba'.format(year,month,day)
-    driver = webdriver.Chrome('./chromedriver')
+    url = 'https://rotogrinders.com/resultsdb/site/draftkings/date/{}-{}-{}'.format(year,month,day)
+    current_directory = os.path.dirname(os.path.realpath(__file__))
+    driver_path = os.path.join(current_directory,'chromedriver')
+    driver = webdriver.Chrome(driver_path)
     driver.get(url)
     selector = "//*[contains(text(), 'Contests')]"
     WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, selector)))

@@ -4,12 +4,14 @@ from scrape_numberfire import scrape_numberfire
 from DK_ID_template import DK_ID_template
 from merge_and_optimize import merge_and_optimize
 from upload_and_enter import upload_and_enter
+from scrape_yesterday_contests import scrape_yesterday_contests
 from os import environ, path
 from dotenv import load_dotenv
 
 if __name__ == "__main__":
     
-    #get yesterday's results
+    #get yesterday's results and contests
+    scrape_yesterday_contests()
     scrape_yesterday_results()
 
     # load inputs
