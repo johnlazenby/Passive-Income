@@ -85,9 +85,21 @@ def DK_ID_template(username,password,downloads_path):
 
     #Clean name for eventual merge to prediction. name to upper case and remove JR. and SR.
     df['Name'] = df['Name'].str.upper()
+    df['Name'] = df['Name'].str.replace('`','')
+    df['Name'] = df['Name'].str.replace("'","")
+    df['Name'] = df['Name'].str.replace(' III','')
+    df['Name'] = df['Name'].str.replace(' II','')
     df['Name'] = df['Name'].str.replace('JR.','')
     df['Name'] = df['Name'].str.replace('SR.','')
+    df['Name'] = df['Name'].str.replace('.','')
     df['Name'] = df['Name'].str.strip()
+
+    df.loc[df['Name'] == "LONNIE WALKER IV",'Name'] = "LONNIE WALKER"
+
+    #teams
+    df.loc[df['TeamAbbrev'] == 'UTA','TeamAbbrev'] = 'UTAH'
+    df.loc[df['TeamAbbrev'] == 'WAS','TeamAbbrev'] = 'WSH'
+    df.loc[df['TeamAbbrev'] == 'PHO','TeamAbbrev'] = 'PHX'
 
     #return pandas dataframe with ID, salary, and position for merge by name and team.
     #return driver for use in next piece

@@ -8,14 +8,14 @@ import time
 import os
 
 
-def upload_and_enter(driver,contest_titles):
+def upload_and_enter(driver,contest_titles,version):
 
     #upload csv file
     
     selector = '[name="fileUpload"]'
     WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
     current_directory = os.path.dirname(os.path.realpath(__file__))
-    file_name = os.path.join(current_directory,"export/for_upload","lineup_{}.csv".format(date.today()))
+    file_name = os.path.join(current_directory,"export/for_upload","lineup_{}_{}.csv".format(version,date.today()))
     driver.find_element_by_css_selector(selector).send_keys("{}".format(file_name))
     time.sleep(5)
 
