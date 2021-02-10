@@ -2,3 +2,4 @@ venv
 *.csv
 __pycache__
 scraping_and_entering_inputs.env
+*/export/*
