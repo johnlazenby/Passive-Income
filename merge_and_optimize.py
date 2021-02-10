@@ -16,7 +16,7 @@ def merge_and_optimize(df, points_df, excluded_players):
     #check max salary of those who did not merge (no points and not injured or excluded)
     try:
         filter = df['points_nf_sl_lu'].isnull() & ~((df['status'] == 'Sidelined') | 
-            (df['status'] == 'Questionable') |  df['name'].isin(excluded_players))
+            (df['status'] == 'Questionable') | (df['status'] == 'Doubtful') | df['name'].isin(excluded_players))
         max_salary = df.loc[filter,'Salary'].max()
         assert max_salary < 4000
     except:
@@ -25,8 +25,8 @@ def merge_and_optimize(df, points_df, excluded_players):
 
     #drop sidelined and questionable players, excluded players, and players missing predictions
     print(df.shape)
-    filter = ( (df['status'] == 'Sidelined') | (df['status'] == 'Questionable') |  df['name'].isin(excluded_players) |
-        df['points_nf_sl_lu'].isnull() )
+    filter = ( (df['status'] == 'Sidelined') | (df['status'] == 'Questionable') | (df['status'] == 'Doubtful') |  
+        df['name'].isin(excluded_players) | df['points_nf_sl_lu'].isnull() )
     not_available = df[filter]
     file_name = 'export/not_available/not_available_{}.csv'.format(date.today())
     not_available.to_csv(file_name,index=False)

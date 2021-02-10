@@ -16,10 +16,10 @@ def DK_ID_template(username,password,downloads_path):
     driver = webdriver.Chrome(driver_path)
     driver.get('https://www.draftkings.com/lobby')
     #sign in
-    selector = '[placeholder="Username or Email"]'
+    selector = '[name="username"]'
     WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
-    driver.find_element_by_css_selector('[placeholder="Username or Email"]').send_keys(username)
-    driver.find_element_by_css_selector('[placeholder="Password"]').send_keys(password)
+    driver.find_element_by_css_selector(selector).send_keys(username)
+    driver.find_element_by_css_selector('[name="password"]').send_keys(password)
     driver.find_element_by_css_selector('[data-test-id="login-input"] span').click()
     #click lineups tab
     selector = '[alt="Lineups"]'
@@ -95,6 +95,7 @@ def DK_ID_template(username,password,downloads_path):
     df['Name'] = df['Name'].str.strip()
 
     df.loc[df['Name'] == "LONNIE WALKER IV",'Name'] = "LONNIE WALKER"
+    df.loc[df['Name'] == "JUANCHO HERNANGOMEZ",'Name'] = "JUAN HERNANGOMEZ"
 
     #teams
     df.loc[df['TeamAbbrev'] == 'UTA','TeamAbbrev'] = 'UTAH'

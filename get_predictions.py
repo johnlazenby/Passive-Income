@@ -226,7 +226,7 @@ def scrape_lineups(downloads_path):
 
 
     #adjust names
-    df.loc[df['name'] == 'JAESEAN TATE','name'] = "JAE'SEAN TATE"
+    df.loc[df['name'] == 'JAESEAN TATE','name'] = "JAESEAN TATE"
 
     #save copy
     file_name = 'export/predictions/lineups_{}.csv'.format(date.today())

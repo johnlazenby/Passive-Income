@@ -28,3 +28,6 @@ def scrape_yesterday_results():
     text_file = open("research/export/player_results/player_results_{}_{}_{}.txt".format(year,pad(month),pad(day)), "w")
     text_file.write(text)
     text_file.close()
+
+if __name__ == '__main__':
+    scrape_yesterday_results()

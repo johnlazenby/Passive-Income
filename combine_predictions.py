@@ -7,7 +7,7 @@ def combine_predictions(nf, sl, lu, injuries, excluded_players):
 
     df['points_sl'] = pd.to_numeric(df['points_sl'])
     
-    #outer merge. Only trust those in numberfire
+    #outer merge.
     df = df.merge(nf, on = ['name', 'team'], how = 'outer')
     df = df.rename(columns={'points':'points_nf'})
 
@@ -21,7 +21,8 @@ def combine_predictions(nf, sl, lu, injuries, excluded_players):
     df = df.merge(injuries,on = ['name', 'team'], how = 'outer')
 
     #check potential bad merges
-    filter = ((df['status'] != 'Sidelined') & (df['points_nf'].isnull() | df['points_sl'].isnull() | df['points_lu'].isnull()) &
+    filter = ((df['status'] != 'Sidelined') & (df['status'] != 'Questionable') & (df['status'] != 'Doubtful') &
+        ~df['name'].isin(excluded_players) & (df['points_nf'].isnull() | df['points_sl'].isnull() | df['points_lu'].isnull()) &
         (~df['points_nf'].isnull() | ~df['points_sl'].isnull() | ~df['points_lu'].isnull()) )
     print(sorted(df['team'].unique()))
     print(sorted(injuries['team'].unique()))
@@ -32,7 +33,7 @@ def combine_predictions(nf, sl, lu, injuries, excluded_players):
 
 
     try:
-        assert max_non_merge < 20
+        assert max_non_merge < 25
     except:
         print(df[filter].to_string())
         raise Exception('non-trivial player did not merge')

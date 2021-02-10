@@ -10,8 +10,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from datetime import timedelta, date
 
-#takes a valid yahoo numberfire login and returns player-name-predicted points
-#saves a copy of predictions as a .csv file in specified location
+
+#scrapes results DB for every date in date range specified by start_date and end_date
+#results DB does not upload consistently. It's best to check manually which days have loaded
+#and scrape in chunks of days at a time instead of daily with the other script.
 
 def pad(num):
     if num < 10:
@@ -23,8 +25,8 @@ def daterange(start_date, end_date):
     for n in range(int((end_date - start_date).days)):
         yield start_date + timedelta(n)
 
-start_date = date(2021, 1, 10)
-end_date = date(2021, 1, 11)
+start_date = date(2021, 2, 5)
+end_date = date(2021, 2, 10)
 
 for single_date in daterange(start_date, end_date):
     year = pad(single_date.year)

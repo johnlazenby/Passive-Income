@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from scrape_yesterday_results import scrape_yesterday_results
-from scrape_previous_contests import scrape_previous_contests
 import get_predictions
 from combine_predictions import combine_predictions
 from DK_ID_template import DK_ID_template
@@ -15,8 +14,6 @@ if __name__ == "__main__":
     
     #get yesterday's player results
     scrape_yesterday_results()
-    #get contest results from two days prior
-    scrape_previous_contests()
 
     # load inputs
     load_dotenv(dotenv_path='scraping_and_entering_inputs.env')
@@ -53,6 +50,9 @@ if __name__ == "__main__":
 
     #merge prediction and template, find optimal lineup, download file for upload and file for record.
     merge_and_optimize(df = df,points_df = all_predictions,excluded_players=excluded_players)
+
+    #JL for now while not entering lineup to know when progarm is finished.
+    driver.quit()
 
     #upload template and enter contest with title of contest_title
     contest_title = environ.get("contest_title")
