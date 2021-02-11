@@ -15,7 +15,7 @@ def daterange(start_date, end_date):
         yield start_date + timedelta(n)
 
 start_date = date(2020, 12, 22)
-end_date = date(2021, 2, 10)
+end_date = date(2021, 2, 11)
 pred_list = ['nf','sl','lu','nf_sl','sl_lu','nf_sl_lu']
 merge_problems = []
 zero_problems = []
@@ -70,6 +70,8 @@ for date in daterange(start_date,end_date):
     #change MARVIN BAGLEY to MARVIN BAGLEY III 
     players.loc[players['Name']=='MARVIN BAGLEY', 'Name'] = 'MARVIN BAGLEY III'
     players.loc[players['Name']=='ISHMAEL SMITH', 'Name'] = 'ISH SMITH'
+    players.loc[players['Name']=='LOUIS WILLIAMS', 'Name'] = 'LOU WILLIAMS'
+
     
     for pred in pred_list:
         if not os.path.exists('export/lineups/lineup_{}_{}-{}-{}.csv'.format(pred,year,month,day)):
@@ -131,6 +133,7 @@ df = pd.DataFrame(results)
 results_last_two = df[df.date > df.date.max() - timedelta(2)]
 print(results_last_two.to_string())
 
+'''
 df.loc[df.zero_problem == 0,].groupby(by=['pred'])['beat_median'].mean().plot(kind='bar')
 plt.title('percentage of times beat median (no zeros)')
 plt.savefig('research/success_vs_median.png')
@@ -144,3 +147,20 @@ plt.savefig('research/average_cash_line_minus_score.png')
 subprocess.call(['open', 'research/success_vs_median.png'])
 subprocess.call(['open', 'research/win_percentage.png'])
 subprocess.call(['open', 'research/average_cash_line_minus_score.png'])
+'''
+
+#since 2/1/2020
+df = df[df.date >= pd.to_datetime('2021-02-01')]
+df.loc[df.zero_problem == 0,].groupby(by=['pred'])['beat_median'].mean().plot(kind='bar')
+plt.title('since 2/1 percentage of times beat median (no zeros)')
+plt.savefig('research/success_vs_median_recent.png')
+df.loc[df.zero_problem == 0,].groupby(by=['pred'])['percent_wins'].mean().plot(kind='bar')
+plt.title('since 2/1 percentage of wins (no zeros)')
+plt.savefig('research/win_percentage_recent.png')
+df.loc[df.zero_problem == 0,].groupby(by=['pred'])['avg_diff'].mean().plot(kind='bar')
+plt.title('since 2/1 average difference (no zeros)')
+plt.savefig('research/average_cash_line_minus_score_recent.png')
+
+subprocess.call(['open', 'research/success_vs_median_recent.png'])
+subprocess.call(['open', 'research/win_percentage_recent.png'])
+subprocess.call(['open', 'research/average_cash_line_minus_score_recent.png'])

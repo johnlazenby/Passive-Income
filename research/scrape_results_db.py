@@ -25,8 +25,8 @@ def daterange(start_date, end_date):
     for n in range(int((end_date - start_date).days)):
         yield start_date + timedelta(n)
 
-start_date = date(2021, 2, 5)
-end_date = date(2021, 2, 10)
+start_date = date(2021, 2, 10)
+end_date = date(2021, 2, 11)
 
 for single_date in daterange(start_date, end_date):
     year = pad(single_date.year)
